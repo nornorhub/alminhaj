@@ -25,6 +25,12 @@ nav{position:fixed;top:0;right:0;left:0;z-index:200;background:rgba(26,58,42,.97
 .nav-links a{color:var(--cd);text-decoration:none;font-size:.82rem;padding:.28rem .7rem;border-radius:4px;font-family:'Amiri',serif;transition:color .2s,background .2s}
 .nav-links a:hover{color:var(--gl);background:rgba(196,154,58,.12)}
 
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:.4rem;flex-direction:column;gap:5px;z-index:210}
+.nav-toggle span{display:block;width:24px;height:2px;background:var(--gl);border-radius:2px;transition:transform .3s,opacity .3s}
+.nav-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--gd) 0%,#0e2218 55%,#162d1e 100%);overflow:hidden}
 .hero-pat{position:absolute;inset:0;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23C49A3A' stroke-width='.6'%3E%3Cpolygon points='40,2 78,20 78,60 40,78 2,60 2,20'/%3E%3Cpolygon points='40,14 66,26 66,54 40,66 14,54 14,26'/%3E%3Cline x1='40' y1='2' x2='40' y2='14'/%3E%3Cline x1='78' y1='20' x2='66' y2='26'/%3E%3Cline x1='78' y1='60' x2='66' y2='54'/%3E%3Cline x1='40' y1='78' x2='40' y2='66'/%3E%3Cline x1='2' y1='60' x2='14' y2='54'/%3E%3Cline x1='2' y1='20' x2='14' y2='26'/%3E%3C/g%3E%3C/svg%3E");background-size:80px}
 .hero-c{position:relative;z-index:2;padding:2rem;animation:fadeUp 1.2s ease}
@@ -189,7 +195,17 @@ footer{background:#0d1f15;padding:2.8rem 2rem;text-align:center;border-top:1px s
 
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--cd)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 @media(max-width:700px){
-  .ig{grid-template-columns:1fr}nav{padding:0 1rem}.nav-links{display:none}
+  .ig{grid-template-columns:1fr}nav{padding:0 1rem}
+  .nav-toggle{display:flex}
+  .nav-links{
+    display:none;flex-direction:column;position:absolute;top:62px;right:0;left:0;
+    background:rgba(26,58,42,.98);backdrop-filter:blur(12px);
+    padding:.8rem 1rem;border-bottom:2px solid var(--gold);
+    box-shadow:0 8px 24px rgba(0,0,0,.3)
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:.7rem 1rem;font-size:.95rem;border-radius:6px}
+  .nav-links a:hover,.nav-links a:active{background:rgba(196,154,58,.15);color:var(--gl)}
   .cg{grid-template-columns:1fr}.gi{flex-direction:column}
   .mbody{padding:1.2rem 1rem}.hadith{gap:.5rem}.ayah{font-size:1.05rem}
 }
@@ -199,11 +215,14 @@ footer{background:#0d1f15;padding:2.8rem 2rem;text-align:center;border-top:1px s
 
 <nav>
   <span class="nav-logo">المنهاج من ميراث النبوة</span>
+  <button class="nav-toggle" aria-label="القائمة" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
   <ul class="nav-links">
-    <li><a href="#intro">مقدمة</a></li>
-    <li><a href="#chapters">الأبواب</a></li>
-    <li><a href="#goals">الأهداف</a></li>
-    <li><a href="#editions">الطبعات</a></li>
+    <li><a href="#intro" onclick="closeNav()">مقدمة</a></li>
+    <li><a href="#chapters" onclick="closeNav()">الأبواب</a></li>
+    <li><a href="#goals" onclick="closeNav()">الأهداف</a></li>
+    <li><a href="#editions" onclick="closeNav()">الطبعات</a></li>
   </ul>
 </nav>
 
@@ -286,6 +305,7 @@ footer{background:#0d1f15;padding:2.8rem 2rem;text-align:center;border-top:1px s
 </div>
 
 <script>
+function closeNav(){document.querySelector('.nav-toggle').classList.remove('active');document.querySelector('.nav-links').classList.remove('open');}
 const CH=[
 {n:"١",t:`بَابٌ فِي مَرْجِعِيَّةِ الْوَحْيِ وَشُمُولِيَّتِهِ`,s:`وَمَرْكَزِيَّةِ التَّسْلِيمِ لِلهِ وَلِرَسُولِهِ ﷺ`,h:`<div class="bab-header">الباب الأول:</div>
 <div class="bab-title">بَابٌ فِي مَرْجِعِيَّةِ الْوَحْيِ وَشُمُولِيَّتِهِ
